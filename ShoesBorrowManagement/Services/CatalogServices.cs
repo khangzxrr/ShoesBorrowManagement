@@ -26,6 +26,7 @@ namespace ShoesBorrowManagement.Services
             return true;
         }
 
+        
         public void Add(string name)
         {
             Validate(name);
@@ -33,6 +34,11 @@ namespace ShoesBorrowManagement.Services
             Catalog catalog = new Catalog(name);
 
             catalogRepository.Add(catalog);
+        }
+
+        public IList<Catalog> GetAll()
+        {
+            return catalogRepository.GetAll();
         }
     }
 }

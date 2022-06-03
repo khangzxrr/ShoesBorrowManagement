@@ -8,10 +8,15 @@ using System.Threading.Tasks;
 
 namespace ShoesBorrowManagement.Repositories
 {
-    internal class CatalogRepository : ICatalogRepository
+    public class CatalogRepository : ICatalogRepository
     {
-        private string connectionString = @"Data Source=data.db";
-        
+        private string connectionString;
+
+        public CatalogRepository(string connectionString = @"Data Source=data.db")
+        {
+            this.connectionString = connectionString;
+        }
+
         public void Add(Catalog catalog)
         {
             using var connection = new SqliteConnection(connectionString);
@@ -24,23 +29,42 @@ namespace ShoesBorrowManagement.Repositories
             command.Prepare();
 
             command.ExecuteNonQuery();
-
-            Console.WriteLine("inserted!");
         }
 
         public void Delete(Catalog catalog)
         {
-            throw new NotImplementedException();
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("DELETE FROM Catalogs WHERE Name = @name", connection);
+
+            command.Parameters.AddWithValue("@name", catalog.name);
+            command.Prepare();
+
+            command.ExecuteNonQuery();
         }
 
         public IList<Catalog> GetAll()
         {
-            throw new NotImplementedException();
+            IList<Catalog> catalogs = new List<Catalog>();
+
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("SELECT * FROM Catalogs", connection);
+            using var dataReader = command.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                var id = (long)dataReader[0];
+                var name = (string)dataReader[1];
+                Catalog catalog = new Catalog(id, name);
+
+                catalogs.Add(catalog);
+            }
+
+            return catalogs;
         }
 
-        public void Update(Catalog catalog)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

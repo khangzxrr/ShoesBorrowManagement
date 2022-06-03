@@ -10,7 +10,6 @@ namespace ShoesBorrowManagement.Repositories
      public interface ICatalogRepository
     {
         void Add(Catalog catalog);
-        void Update(Catalog catalog);
         void Delete(Catalog catalog);
         IList<Catalog> GetAll();
     }

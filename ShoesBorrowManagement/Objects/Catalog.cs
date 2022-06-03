@@ -8,14 +8,14 @@ namespace ShoesBorrowManagement.Objects
 {
     public class Catalog
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string name { get; set; }
 
         public Catalog(string name)
         {
             this.name = name;
         }
-        public Catalog(int Id, string name)
+        public Catalog(long Id, string name)
         {
             this.Id = Id;
             this.name = name;
