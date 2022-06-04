@@ -23,5 +23,20 @@ namespace ShoesBorrowManagement.Objects
             this.idCatalog = idCatalog;
         }
 
+        public Shoe(string name, string detail, string size, long idCatalog)
+        {
+            
+            this.name = name;
+            this.detail = detail;
+            this.size = size;
+            this.idCatalog = idCatalog;
+        }
+
+        override
+        public string ToString()
+        {
+            return name;
+        }
+
     }
 }

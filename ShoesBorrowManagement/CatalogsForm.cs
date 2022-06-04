@@ -1,4 +1,5 @@
-﻿using ShoesBorrowManagement.Repositories;
+﻿using ShoesBorrowManagement.Objects;
+using ShoesBorrowManagement.Repositories;
 using ShoesBorrowManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,22 @@ namespace ShoesBorrowManagement
             InitializeComponent();
 
             catalogServices = new CatalogServices(new CatalogRepository());
+
+            LoadCatalogsDataToGridview();
         }
 
+        public void LoadCatalogsDataToGridview()
+        {
 
+
+            var catalogs = catalogServices.GetAll();
+            catalogDataGridView.DataSource = catalogs;
+
+            catalogDataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            catalogDataGridView.Columns[0].ReadOnly = true;
+
+            catalogDataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
 
 
         private void addButton_Click(object sender, EventArgs e)
@@ -30,9 +44,7 @@ namespace ShoesBorrowManagement
             try
             {
                 catalogServices.Add(catalogName.Text);
-                MessageBox.Show("Thêm thành công!");
-
-                Close();
+                LoadCatalogsDataToGridview();
             }
             catch(Exception ex)
             {
@@ -43,6 +55,58 @@ namespace ShoesBorrowManagement
             }
             
 
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void CatalogsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridview_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            var editedCatalog = (Catalog) catalogDataGridView.Rows[e.RowIndex].DataBoundItem;
+            catalogServices.Update(editedCatalog);
+
+        }
+
+        private void dataGridview_cellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.FormattedValue.ToString().Trim())) 
+            {
+                MessageBox.Show("Vui lòng nhập dữ liệu");
+                e.Cancel = true;
+            }
+
+
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            var selectedRows = catalogDataGridView.SelectedRows;
+            foreach (DataGridViewRow selectedRow in selectedRows)
+            {
+                var catalog = (Catalog) selectedRow.DataBoundItem;
+                catalogServices.Delete(catalog);
+            }
+
+            var selectedCatalogFromSelectedCells = new HashSet<Catalog>();
+            foreach (DataGridViewCell selectedCell in catalogDataGridView.SelectedCells)
+            {
+                var catalog = (Catalog)catalogDataGridView.Rows[selectedCell.RowIndex].DataBoundItem;
+                selectedCatalogFromSelectedCells.Add(catalog);
+            }
+
+            foreach(var catalog in selectedCatalogFromSelectedCells)
+            {
+                catalogServices.Delete(catalog);
+            }
+
+            LoadCatalogsDataToGridview();
         }
     }
 }

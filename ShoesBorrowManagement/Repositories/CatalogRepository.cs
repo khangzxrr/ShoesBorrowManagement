@@ -44,6 +44,29 @@ namespace ShoesBorrowManagement.Repositories
             command.ExecuteNonQuery();
         }
 
+        public Catalog FindById(long id)
+        {
+            
+
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("SELECT * FROM Catalogs WHERE Id = @id", connection);
+            command.Parameters.AddWithValue("@id", id);
+
+            using var dataReader = command.ExecuteReader();
+
+            if (dataReader.Read())
+            {
+                var name = (string)dataReader[1];
+                Catalog catalog = new Catalog(id, name);
+
+                return catalog;
+            }
+
+            return null;
+        }
+
         public IList<Catalog> GetAll()
         {
             IList<Catalog> catalogs = new List<Catalog>();
@@ -66,5 +89,18 @@ namespace ShoesBorrowManagement.Repositories
             return catalogs;
         }
 
+        public void Update(Catalog catalog)
+        {
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("UPDATE Catalogs SET Name = @new_name WHERE Id = @id", connection);
+
+            command.Parameters.AddWithValue("@new_name", catalog.name);
+            command.Parameters.AddWithValue("@id", catalog.Id);
+            command.Prepare();
+
+            command.ExecuteNonQuery();
+        }
     }
 }

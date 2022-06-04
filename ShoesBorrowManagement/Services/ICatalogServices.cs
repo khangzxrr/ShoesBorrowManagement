@@ -11,6 +11,9 @@ namespace ShoesBorrowManagement.Services
     {
         bool Validate(string name);
         void Add(string name);
+        void Update(Catalog catalog);
+        void Delete(Catalog catalog);
+        Catalog FindById(long id);
         IList<Catalog> GetAll();
     }
 }

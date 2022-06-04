@@ -40,5 +40,20 @@ namespace ShoesBorrowManagement.Services
         {
             return catalogRepository.GetAll();
         }
+
+        public void Update(Catalog catalog)
+        {
+            catalogRepository.Update(catalog);
+        }
+
+        public void Delete(Catalog catalog)
+        {
+            catalogRepository.Delete(catalog);
+        }
+
+        public Catalog FindById(long id)
+        {
+            return catalogRepository.FindById(id);
+        }
     }
 }
