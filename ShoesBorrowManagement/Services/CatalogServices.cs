@@ -16,6 +16,8 @@ namespace ShoesBorrowManagement.Services
         {
             this.catalogRepository = catalogRepository;
         }
+
+
         public bool Validate(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -54,6 +56,12 @@ namespace ShoesBorrowManagement.Services
         public Catalog FindById(long id)
         {
             return catalogRepository.FindById(id);
+        }
+
+        public void Delete(object obj)
+        {
+            Catalog catalog = (Catalog)obj;
+            Delete(catalog);
         }
     }
 }

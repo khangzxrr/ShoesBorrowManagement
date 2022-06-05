@@ -26,7 +26,22 @@ namespace ShoesBorrowManagement.Services
             return shoeRepository.GetAll();
         }
 
-        public void Remove(Shoe shoe)
+        public IList<BorrowedShoe> GetAllBorrowedShoes()
+        {
+            return shoeRepository.GetAllBorrowShoe();
+        }
+
+        public Shoe? GetShoeById(long id)
+        {
+            return shoeRepository.GetShoeById(id);
+        }
+
+        public IList<UnBorrowedShoe> GetUnBorrowedShoes()
+        {
+            return shoeRepository.GetNotBorrowShoe();
+        }
+
+        public void Delete(Shoe shoe)
         {
            shoeRepository.Delete(shoe);
         }
@@ -34,6 +49,36 @@ namespace ShoesBorrowManagement.Services
         public void Update(Shoe shoe)
         {
             shoeRepository.Update(shoe);
+        }
+
+        public void Delete(BorrowedShoe shoe)
+        {
+            shoeRepository.Delete(shoe);
+        }
+
+        public void Delete(object obj)
+        {
+            if (obj is Shoe)
+            {
+                var shoe = (Shoe)obj;
+                Delete(shoe);
+            }
+            else if (obj is BorrowedShoe)
+            {
+                var shoe = (BorrowedShoe)obj;
+                Delete(shoe);
+            }
+        }
+
+        public void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date)
+        {
+            foreach(var shoe in shoeList)
+            {
+                BorrowedShoe borrowedShoe = new BorrowedShoe(shoe.ID, shoe.name, date);
+                shoeRepository.Add(borrowedShoe);
+            }
+
+            
         }
     }
 }

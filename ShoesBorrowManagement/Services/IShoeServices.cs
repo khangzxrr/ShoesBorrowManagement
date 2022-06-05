@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace ShoesBorrowManagement.Services
 {
-    internal interface IShoeServices
+    public interface IShoeServices : IServices
     {
         void Add(string name, string detail, string size, long idCatalog);
-        void Remove(Shoe shoe);
+        void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date);
+        void Delete(Shoe shoe);
+        void Delete(BorrowedShoe shoe);
         void Update(Shoe shoe);
         IList<Shoe> GetAll();
+        IList<BorrowedShoe> GetAllBorrowedShoes();
+        IList<UnBorrowedShoe> GetUnBorrowedShoes();
+        Shoe? GetShoeById(long id);
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShoesBorrowManagement.Services
 {
-    public interface ICatalogServices
+    public interface ICatalogServices : IServices
     {
         bool Validate(string name);
         void Add(string name);

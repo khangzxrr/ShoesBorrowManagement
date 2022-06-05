@@ -1,6 +1,7 @@
 ﻿using ShoesBorrowManagement.Objects;
 using ShoesBorrowManagement.Repositories;
 using ShoesBorrowManagement.Services;
+using ShoesBorrowManagement.UIServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,19 +17,19 @@ namespace ShoesBorrowManagement
     public partial class CatalogsForm : Form
     {
         private ICatalogServices catalogServices;
+        private IUIGridview UIgridview;
         public CatalogsForm()
         {
             InitializeComponent();
 
             catalogServices = new CatalogServices(new CatalogRepository());
+            UIgridview = new UIGridview();
 
             LoadCatalogsDataToGridview();
         }
 
         public void LoadCatalogsDataToGridview()
         {
-
-
             var catalogs = catalogServices.GetAll();
             catalogDataGridView.DataSource = catalogs;
 
@@ -54,17 +55,6 @@ namespace ShoesBorrowManagement
 
             }
             
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void CatalogsForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void dataGridview_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -87,24 +77,7 @@ namespace ShoesBorrowManagement
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            var selectedRows = catalogDataGridView.SelectedRows;
-            foreach (DataGridViewRow selectedRow in selectedRows)
-            {
-                var catalog = (Catalog) selectedRow.DataBoundItem;
-                catalogServices.Delete(catalog);
-            }
-
-            var selectedCatalogFromSelectedCells = new HashSet<Catalog>();
-            foreach (DataGridViewCell selectedCell in catalogDataGridView.SelectedCells)
-            {
-                var catalog = (Catalog)catalogDataGridView.Rows[selectedCell.RowIndex].DataBoundItem;
-                selectedCatalogFromSelectedCells.Add(catalog);
-            }
-
-            foreach(var catalog in selectedCatalogFromSelectedCells)
-            {
-                catalogServices.Delete(catalog);
-            }
+            UIgridview.deleteDataFromSelectedRowsOrCells(catalogDataGridView, catalogServices);
 
             LoadCatalogsDataToGridview();
         }

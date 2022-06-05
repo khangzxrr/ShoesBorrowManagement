@@ -12,7 +12,7 @@ namespace ShoesBorrowManagement.Repositories
         void Add(Catalog catalog);
         void Delete(Catalog catalog);
         void Update(Catalog catalog);
-        Catalog FindById(long id);
+        Catalog? FindById(long id);
         IList<Catalog> GetAll();
     }
 }

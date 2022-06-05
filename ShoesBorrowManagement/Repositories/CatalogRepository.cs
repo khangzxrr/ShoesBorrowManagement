@@ -44,7 +44,7 @@ namespace ShoesBorrowManagement.Repositories
             command.ExecuteNonQuery();
         }
 
-        public Catalog FindById(long id)
+        public Catalog? FindById(long id)
         {
             
 

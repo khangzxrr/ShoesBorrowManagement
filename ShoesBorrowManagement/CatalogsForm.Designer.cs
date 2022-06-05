@@ -95,7 +95,6 @@
             this.catalogDataGridView.Size = new System.Drawing.Size(395, 249);
             this.catalogDataGridView.TabIndex = 3;
             this.catalogDataGridView.VirtualMode = true;
-            this.catalogDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.catalogDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridview_CellEndEdit);
             this.catalogDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridview_cellValidating);
             // 
@@ -126,7 +125,7 @@
             this.Controls.Add(this.catalogName);
             this.Name = "CatalogsForm";
             this.Text = "CatalogsForm";
-            this.Load += new System.EventHandler(this.CatalogsForm_Load);
+
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.catalogDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.catalogServicesBindingSource)).EndInit();

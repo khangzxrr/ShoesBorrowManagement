@@ -32,6 +32,20 @@ namespace ShoesBorrowManagement.Repositories
             command.ExecuteNonQuery();
         }
 
+        public void Add(BorrowedShoe borrowedShoe)
+        {
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("INSERT INTO Borrows(IDShoe, Detail, Date) VALUES (@idshoe, \"\", @date)", connection);
+
+            command.Parameters.AddWithValue("@idshoe", borrowedShoe.idShoe);
+            command.Parameters.AddWithValue("@date", borrowedShoe.date);
+
+            command.Prepare();
+            command.ExecuteNonQuery();
+        }
+
         public void Delete(Shoe shoe)
         {
             using var connection = new SqliteConnection(connectionString);
@@ -40,6 +54,18 @@ namespace ShoesBorrowManagement.Repositories
             using var command = new SqliteCommand("DELETE FROM Shoes WHERE Id = @id", connection);
 
             command.Parameters.AddWithValue("@id", shoe.Id);
+
+            command.ExecuteNonQuery();
+        }
+
+        public void Delete(BorrowedShoe shoe)
+        {
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("DELETE FROM Borrows WHERE IDShoe = @id", connection);
+
+            command.Parameters.AddWithValue("@id", shoe.idShoe);
 
             command.ExecuteNonQuery();
         }
@@ -96,6 +122,85 @@ namespace ShoesBorrowManagement.Repositories
             }
 
             return shoeList;
+        }
+
+
+
+        public IList<BorrowedShoe> GetAllBorrowShoe()
+        {
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("SELECT Shoes.ID, Shoes.Name, Borrows.Date FROM Shoes INNER JOIN Borrows ON Borrows.IDShoe = Shoes.ID", connection);
+            command.Prepare();
+
+            using var reader = command.ExecuteReader();
+
+            IList<BorrowedShoe> borrowShoes = new List<BorrowedShoe>();
+
+            while (reader.Read())
+            {
+                var id = (long)reader[0];
+                var name = (string)reader[1];
+                var date = DateTime.Parse((string)reader[2]);
+
+                BorrowedShoe shoe = new BorrowedShoe(id, name, date);
+                borrowShoes.Add(shoe);
+            }
+
+            return borrowShoes;
+        }
+
+        public IList<UnBorrowedShoe> GetNotBorrowShoe()
+        {
+            IList<UnBorrowedShoe> shoeList = new List<UnBorrowedShoe>();
+
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("SELECT Shoes.ID, Shoes.Name, Shoes.Detail, Shoes.Size FROM Shoes WHERE ID NOT IN (SELECT IDShoe FROM Borrows)", connection);
+
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var id = (long)reader[0];
+                var name = (string)reader[1];
+                var detail = (string)reader[2];
+                var size = (string)reader[3];
+
+                var shoe = new UnBorrowedShoe(id, name, detail, size);
+                shoeList.Add(shoe);
+            }
+
+            return shoeList;
+        }
+
+        public Shoe? GetShoeById(long shoeId)
+        {
+
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
+
+            using var command = new SqliteCommand("SELECT * FROM Shoes WHERE ID = @id", connection);
+            command.Parameters.AddWithValue("@id", shoeId);
+
+            using var reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                var id = (long)reader[0];
+                var name = (string)reader[1];
+                var detail = (string)reader[2];
+                var size = (string)reader[3];
+                var idCatalog = (long)reader[4];
+
+                var shoe = new Shoe(id, name, detail, size, idCatalog);
+
+                return shoe;
+            }
+
+            return null;
         }
 
         public long GetTotalPages(long totalEachPage = 5)
