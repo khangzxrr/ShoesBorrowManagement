@@ -248,6 +248,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "BorrowForm";
             this.Text = "BorrowForm";
+            this.Load += new System.EventHandler(this.BorrowForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.unborrowedDatagrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.borrowGrid)).EndInit();
             this.groupBox1.ResumeLayout(false);

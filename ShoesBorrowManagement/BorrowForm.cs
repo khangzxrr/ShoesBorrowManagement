@@ -179,5 +179,10 @@ namespace ShoesBorrowManagement
             }
             LoadData();
         }
+
+        private void BorrowForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

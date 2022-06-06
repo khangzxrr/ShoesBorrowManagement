@@ -2,15 +2,6 @@
 using ShoesBorrowManagement.Repositories;
 using ShoesBorrowManagement.Services;
 using ShoesBorrowManagement.UIServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ShoesBorrowManagement
 {
