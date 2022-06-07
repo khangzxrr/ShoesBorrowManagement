@@ -16,12 +16,16 @@ namespace ShoesBorrowManagement.Objects
         public string shoeName {get;set;}
         [DisplayName("Ngày mượn")]
         public DateTime date { get;set;}
+        [DisplayName("Ghi chú")]
+        [Browsable(false)]
+        public string note { get;set;}
 
-        public BorrowedShoe(long idShoe, string shoeName, DateTime date)
+        public BorrowedShoe(long idShoe, string shoeName, DateTime date, string note)
         {
             this.idShoe = idShoe;
             this.shoeName = shoeName;
             this.date = date;
+            this.note = note;
         }
     }
 }

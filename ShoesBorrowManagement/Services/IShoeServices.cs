@@ -10,7 +10,7 @@ namespace ShoesBorrowManagement.Services
     public interface IShoeServices : IServices
     {
         void Add(string name, string detail, string size, long idCatalog);
-        void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date);
+        void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date, string note);
         void Delete(Shoe shoe);
         void Delete(BorrowedShoe shoe);
         void Update(Shoe shoe);

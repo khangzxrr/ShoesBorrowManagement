@@ -70,11 +70,11 @@ namespace ShoesBorrowManagement.Services
             }
         }
 
-        public void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date)
+        public void BorrowingShoes(IList<UnBorrowedShoe> shoeList, DateTime date, string note)
         {
             foreach(var shoe in shoeList)
             {
-                BorrowedShoe borrowedShoe = new BorrowedShoe(shoe.ID, shoe.name, date);
+                BorrowedShoe borrowedShoe = new BorrowedShoe(shoe.ID, shoe.name, date, note);
                 shoeRepository.Add(borrowedShoe);
             }
 

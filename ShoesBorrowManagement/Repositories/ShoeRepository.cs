@@ -37,10 +37,11 @@ namespace ShoesBorrowManagement.Repositories
             using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
-            using var command = new SqliteCommand("INSERT INTO Borrows(IDShoe, Detail, Date) VALUES (@idshoe, \"\", @date)", connection);
+            using var command = new SqliteCommand("INSERT INTO Borrows(IDShoe, Detail, Date) VALUES (@idshoe, @note, @date)", connection);
 
             command.Parameters.AddWithValue("@idshoe", borrowedShoe.idShoe);
             command.Parameters.AddWithValue("@date", borrowedShoe.date);
+            command.Parameters.AddWithValue("@note", borrowedShoe.note);
 
             command.Prepare();
             command.ExecuteNonQuery();
@@ -131,7 +132,7 @@ namespace ShoesBorrowManagement.Repositories
             using var connection = new SqliteConnection(connectionString);
             connection.Open();
 
-            using var command = new SqliteCommand("SELECT Shoes.ID, Shoes.Name, Borrows.Date FROM Shoes INNER JOIN Borrows ON Borrows.IDShoe = Shoes.ID", connection);
+            using var command = new SqliteCommand("SELECT Shoes.ID, Shoes.Name, Borrows.Date, Borrows.Detail FROM Shoes INNER JOIN Borrows ON Borrows.IDShoe = Shoes.ID", connection);
             command.Prepare();
 
             using var reader = command.ExecuteReader();
@@ -143,8 +144,9 @@ namespace ShoesBorrowManagement.Repositories
                 var id = (long)reader[0];
                 var name = (string)reader[1];
                 var date = DateTime.Parse((string)reader[2]);
+                var note = (string)reader[3];
 
-                BorrowedShoe shoe = new BorrowedShoe(id, name, date);
+                BorrowedShoe shoe = new BorrowedShoe(id, name, date, note);
                 borrowShoes.Add(shoe);
             }
 

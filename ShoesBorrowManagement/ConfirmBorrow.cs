@@ -33,7 +33,7 @@ namespace ShoesBorrowManagement
 
         private void confirmButton_Click(object sender, EventArgs e)
         {
-            shoeServices.BorrowingShoes(borrowingShoes, borrowDate.Value);
+            shoeServices.BorrowingShoes(borrowingShoes, borrowDate.Value, borrowNote.Text);
 
             Close();
         }

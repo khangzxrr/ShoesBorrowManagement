@@ -106,19 +106,21 @@ namespace ShoesBorrowManagement
 
             Catalog catalog = catalogServices.FindById(shoe.idCatalog);
 
-            setShoeDetails(shoe.name, catalog.name, shoe.size, shoe.detail, borrowedShoe.date);
+            setShoeDetails(shoe.name, catalog.name, shoe.size, shoe.detail, borrowedShoe.note,borrowedShoe.date);
         }
         private void setShoeDetails(
             string name = "", 
             string catalog = "", 
             string size = "", 
             string detail = "", 
+            string note = "",
             DateTime? borrowDate = null)
         {
             shoeName.Text = String.Format($"Tên: {name}");
             shoeCatalog.Text = String.Format($"Loại: {catalog}");
             shoeSize.Text = String.Format($"Size: {size}");
             shoeDetail.Text = String.Format($"Chi tiết: {detail}");
+            shoeNote.Text = String.Format($"{note}");
 
             if (borrowDate != null)
             {
